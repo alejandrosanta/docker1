@@ -1,0 +1,22 @@
+version: "3.9"
+services:
+  php-apache:
+    ports:
+      - "80:80"
+    build: './build/php'
+    volumes:
+      - ./app:/var/www/html  
+  mysql:
+    build: './build/mysql'
+    volumes:
+      - mysql:/var/lib/mysql
+    ports:
+      - "${MYSQL_PORT}:3306"
+    command: mysqld --sql_mode="" --max_connections=2000
+    environment:
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+      - MYSQL_DATABASE:${MYSQL_DATABASE_NAME}
+  
+volumes:
+  app:
+  mysql:

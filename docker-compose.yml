@@ -1,13 +1,16 @@
-#docker-compose.yml
-#
 version: "3.9"
 services:
   php-apache:
+    build:
+      context: ./docker/php-apache
+      args:
+        - TZ=${TIMEZONE}
+    image: ${COMPOSE_PROJECT_NAME}_php-apache:${APACHE_TAG}-${PHP_TAG}
+    #networks:
     ports:
       - "80:80"
-    build: './build/php'
     volumes:
-      - ./app:/var/www/html  
+      - ${APP_CODE_PATH_HOST}:${APP_CODE_PATH_CONTAINER}
   mysql:
     build: './build/mysql'
     volumes:
